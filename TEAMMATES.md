@@ -9,6 +9,7 @@
 - Slice chung lấy từ mode.json: B2-mid
 - Tên định danh vai A dùng cho --self: DuongLong-205
 - Kênh trao đổi nội bộ: Discord / Zalo Group
+- Đại diện nộp (vai C): Trần Đức Quân - 2A202602260
 
 ## 2. Bảng phân vai
 
