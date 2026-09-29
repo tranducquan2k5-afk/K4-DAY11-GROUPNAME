@@ -1,1 +1,38 @@
 round,slice,frame,object_ref,cell,what,why,severity,owner,rule_id,evidence,action,rules_version,note
+r1_craft,B2-mid,adasind_060000.jpg,L3,na,BOX_GEOMETRY,E1_annotator_error,P1,annotator,R02,submission/screenshots/060000_threewheeler_edge.png,rework,v1.0.0,ThreeWheeler ở mép cong fisheye chưa bám sát đáy bánh xe
+r1_craft,B2-mid,adasind_086220.jpg,L1,na,ATTRIBUTE,E1_annotator_error,P1,annotator,R05,submission/screenshots/086220_threewheeler_truncation.png,rework,v1.0.0,ThreeWheeler sát mép phải bị cắt thiếu đầu xe và thiếu cờ truncated
+r1_craft,B2-mid,adasind_102750.jpg,L3,na,BOX_GEOMETRY,E1_annotator_error,P1,annotator,R02,submission/screenshots/102750_truck_occlusion.png,rework,v1.0.0,Truck bị vẽ trùm cả vật cản che khuất ở tiền cảnh
+r1_craft,B2-mid,adasind_086220.jpg,L2,na,WRONG_CLASS,E1_annotator_error,P1,annotator,R04,,rework,v1.0.0,Xe ba bánh chở hàng bị gán nhầm thành Truck thay vì ThreeWheeler
+r2_qa,B2-mid,adasind_060000.jpg,L3,L_only,BOX_GEOMETRY,,P1,qa,R02,submission/screenshots/060000_threewheeler_edge.png,rework,v1.0.0,QA ghi nhận box ThreeWheeler sát rìa cong chưa bám sát đáy bánh xe
+r2_qa,B2-mid,adasind_086220.jpg,L1,L_only,ATTRIBUTE,,P1,qa,R05,submission/screenshots/086220_threewheeler_truncation.png,rework,v1.0.0,QA ghi nhận ThreeWheeler chạm viền phải chưa bật cờ truncated và cắt thiếu cản trước
+r2_qa,B2-mid,adasind_102750.jpg,L3,L_only,BOX_GEOMETRY,,P1,qa,R02,submission/screenshots/102750_truck_occlusion.png,rework,v1.0.0,QA ghi nhận box Truck vẽ bao cả vật cản che khuất phía trước
+r3_diag,B2-mid,adasind_060000.jpg,L1+R1,LR_noM,MISSING,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,L và R đều nhận diện ThreeWheeler ở tâm nhưng Model YOLO bỏ sót do chưa học xe ba bánh đặc thù
+r3_diag,B2-mid,adasind_060000.jpg,L3+R4,LR_noM,MISSING,E4_model_domain,P2,ai_team,R02,submission/screenshots/060000_threewheeler_edge.png,keep_with_reason,v1.0.0,ThreeWheeler ở vùng edge bị méo fisheye khiến model không nhận diện được
+r3_diag,B2-mid,adasind_060000.jpg,M1,M_only,SPURIOUS,E4_model_domain,P1,ai_team,R07,,escalate,v1.0.0,Model phát hiện vật thể nằm trong vùng thân xe ego (ego_body) ở góc dưới mép ảnh
+r3_diag,B2-mid,adasind_060000.jpg,M2,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R03,,keep_with_reason,v1.0.0,Model phát hiện thừa Pedestrian do tách người lái khỏi xe hai bánh (vi phạm luật Rider R03)
+r3_diag,B2-mid,adasind_060000.jpg,M3,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R03,,keep_with_reason,v1.0.0,Model tách phần thân xe Bike thành box riêng cạnh người lái
+r3_diag,B2-mid,adasind_060000.jpg,M9,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,Model phân loại sai ThreeWheeler thành Truck do không có class ThreeWheeler trong tập gốc
+r3_diag,B2-mid,adasind_060000.jpg,M10,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,Model gán nhãn Car chồng lên ThreeWheeler do nhận diện đa lớp sai lệch
+r3_diag,B2-mid,adasind_086220.jpg,L6+M8,LM_noR,SPURIOUS,E0_reference_defect,P1,guideline,R01,,keep_with_reason,v1.0.0,"L và Model đều phát hiện Car nhỏ ở xa, Reference bỏ sót dù chiều cao xấp xỉ ngưỡng H40"
+r3_diag,B2-mid,adasind_086220.jpg,M5,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,submission/screenshots/086220_threewheeler_truncation.png,keep_with_reason,v1.0.0,Model phát hiện ThreeWheeler thành Truck do kích thước lớn ở vùng mid
+r3_diag,B2-mid,adasind_086220.jpg,M6,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,Model phát hiện trùng lặp gán Car lên cùng xe ThreeWheeler
+r3_diag,B2-mid,adasind_102750.jpg,R5+M8,RM_noL,MISSING,E1_annotator_error,P1,annotator,R01,,rework,v1.0.0,"Cả Reference và Model đều thấy Truck nhỏ ở trung tâm xa, annotator đã bỏ sót"
+r3_diag,B2-mid,adasind_102750.jpg,M3,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,Model gán nhầm Car cho ThreeWheeler ở góc trái
+r3_diag,B2-mid,adasind_102750.jpg,M4,M_only,SPURIOUS,E4_model_domain,P2,ai_team,R04,,keep_with_reason,v1.0.0,Model nhầm ThreeWheeler thành Truck
+r3_diag,B2-mid,adasind_102750.jpg,L3,L_only,BOX_GEOMETRY,E1_annotator_error,P1,annotator,R02,submission/screenshots/102750_truck_occlusion.png,rework,v1.0.0,"Annotator vẽ bao trùm vật cản phía trước xe tải, cần sửa lại bám sát biên nhìn thấy"
+r1_craft,B2-mid,adasind_060000.jpg,R9,na,MISSING,,,,,,,,
+r1_craft,B2-mid,adasind_086220.jpg,L2,na,SPURIOUS,,,,,,,,
+r1_craft,B2-mid,adasind_086220.jpg,L6,na,SPURIOUS,,,,,,,,
+r1_craft,B2-mid,adasind_086220.jpg,R4,na,MISSING,,,,,,,,
+r1_craft,B2-mid,adasind_102750.jpg,L3+R1,na,ATTRIBUTE,,,,,,,,
+r1_craft,B2-mid,adasind_102750.jpg,L1,na,SPURIOUS,,,,,,,,
+r1_craft,B2-mid,adasind_102750.jpg,R4,na,MISSING,,,,,,,,
+r1_craft,B2-mid,adasind_102750.jpg,R5,na,MISSING,,,,,,,,
+rework,B2-mid,adasind_060000.jpg,R9,na,MISSING,,,,,,,,
+rework,B2-mid,adasind_086220.jpg,L4,na,SPURIOUS,,,,,,,,
+rework,B2-mid,adasind_086220.jpg,L5,na,SPURIOUS,,,,,,,,
+rework,B2-mid,adasind_086220.jpg,R4,na,MISSING,,,,,,,,
+rework,B2-mid,adasind_102750.jpg,L3+R1,na,ATTRIBUTE,,,,,,,,
+rework,B2-mid,adasind_102750.jpg,L4,na,SPURIOUS,,,,,,,,
+rework,B2-mid,adasind_102750.jpg,R4,na,MISSING,,,,,,,,
+rework,B2-mid,adasind_102750.jpg,R5,na,MISSING,,,,,,,,

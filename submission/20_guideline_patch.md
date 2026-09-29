@@ -1,0 +1,7 @@
+# Guideline patch
+
+- **Rule mới đề xuất:** `R12 — Quy ước bounding box và cờ truncated cho vật thể chạm biên khung hình fisheye`: Khi phương tiện (ThreeWheeler, Car, Truck, Bus, Bike) hoặc người (Pedestrian) có phần thân kéo dài chạm vào đường biên khung hình (tọa độ x ≤ 2px hoặc x ≥ 1078px trên ảnh 1080×1920) hoặc tiếp giáp vành kính `lens_border`, bounding box phải được kéo chạm đúng mép biên ảnh và bắt buộc kích hoạt thuộc tính `truncated=true`. Nghiêm cấm việc thu hẹp box dừng sớm trước biên ảnh. Trường hợp phần nhìn thấy còn lại dưới 20% và không thể nhận dạng chắc chắn phân lớp, đối tượng sẽ được khoanh vùng bằng polygon `ignore_region` với `reason: unreadable` thay vì vẽ box.
+- **Áp dụng cho:** Tất cả 6 class động (`ThreeWheeler`, `Car`, `Truck`, `Bus`, `Bike`, `Pedestrian`), thuộc tính `truncated`, tại zone `edge` và `mid` tiếp giáp biên khung hình hoặc vành đen quang học.
+- **Vì sao luật hiện tại (`docs/02-rules-vi.md`) không đủ:** Luật `R05` hiện tại chỉ định nghĩa phân biệt khái niệm lý thuyết giữa `truncated` và `occluded`, nhưng thiếu quy chuẩn thao tác cụ thể về tọa độ mép vẽ box và ngưỡng xử lý khi vật thể bị cắt biên quá sâu, dẫn đến hiện tượng annotator dừng vẽ lưng chừng và quên bật cờ `truncated` (như thực tế quan sát được ở ca ThreeWheeler frame `adasind_086220.jpg`).
+- **`rules_version` mới:** `v1.1.0` (cập nhật từ phiên bản gốc `v1.0.0`).
+- **Hiệu lực từ:** Bắt đầu áp dụng từ vòng sửa nhãn `rework` (Phase P5) và các chu kỳ audit tiếp theo.

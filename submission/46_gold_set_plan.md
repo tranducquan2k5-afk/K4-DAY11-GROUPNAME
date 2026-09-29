@@ -1,18 +1,25 @@
 # Đề xuất gold set theo camera — tình huống giả lập
 
-**Đầu bài:** 50.000 frame từ bốn camera SVM, ngân sách chọn 200 frame để review/gold. Đây là tình huống trên slide,
-**không phải** 50.000 frame có trong repo. Phân bổ đúng 200 ở `45_sampling_plan.csv` cho bốn camera, mỗi camera có
-normal và hard slice. “Gold set” ở đây là **kế hoạch tạo** reference sau kiểm chứng, không phải teaching reference
-ADASIND hoặc nhãn bạn vừa vẽ. Nếu cần, dùng `notebooks/day11-svm360-colab.ipynb` để thử tổng phân bổ; notebook
-không làm thay phần lý do.
+**Đầu bài:** 50.000 frame từ bốn camera SVM, ngân sách chọn 200 frame để review/gold. Đây là tình huống trên slide, **không phải** 50.000 frame có trong repo. Phân bổ đúng 200 ở `45_sampling_plan.csv` cho bốn camera, mỗi camera có normal và hard slice. “Gold set” ở đây là **kế hoạch tạo** reference sau kiểm chứng, không phải teaching reference ADASIND hoặc nhãn bạn vừa vẽ.
 
 | camera_id | Hard case cần chọn | Vì sao dễ sai | Annotation space / calibration cần giữ | Cách review trước khi gọi là gold |
 |---|---|---|---|---|
-| front | TODO | TODO | TODO | TODO |
-| rear | TODO | TODO | TODO | TODO |
-| left | TODO | TODO | TODO | TODO |
-| right | TODO | TODO | TODO | TODO |
+| **front** | Ngược sáng chói (sun glare) lúc bình minh/hoàng hôn; xe máy và người đi bộ cắt ngang đầu xe đột ngột ở cự ly gần; giao thông hỗn hợp tại ngã tư. | Lóa quang học làm suy giảm độ tương phản cạnh biên; biến dạng mắt cá góc rìa làm lệch tâm và tỷ lệ hình học của vật thể chuyển động nhanh. | Không gian ảnh fisheye 2D gốc kèm ma trận nội thông số (Intrinsics K, D theo mô hình Kannala-Brandt) và tọa độ vị trí gắn camera trên mui/kính lái. | Review mù độc lập bởi 2 Senior Annotators; nếu IoU < 0.85 hoặc sai nhãn class thì Tech Lead chủ trì phân xử dứt điểm. |
+| **rear** | Đèn pha xe sau chiếu lóa trực diện vào ban đêm; trẻ em, người đi bộ hoặc chướng ngại vật thấp sát cản sau xe khi lùi. | Hiện tượng lóa sáng (blooming/glare) làm mất chi tiết vùng tối; góc nhìn từ trên cao xuống cản sau gây khó khăn cho việc ước lượng chiều cao vật thể thấp. | Ảnh fisheye 2D gốc kết hợp ma trận ngoại thông số (Extrinsics) tham chiếu mặt sàn 3D và đa giác mặt nạ cản sau của xe ego. | Review chéo bởi đội ngũ QA chuyên trách an toàn lùi xe, đối chiếu thêm tín hiệu từ cảm biến siêu âm (Ultrasonic) nếu có. |
+| **left** | Phương tiện vượt sát sườn xe ở tốc độ cao; vật thể di chuyển cắt qua đường nối mí (seam) giữa camera trước và camera trái. | Độ méo phi tuyến cực đại tại vùng biên tiếp giáp góc sườn; tốc độ trôi quang học (optical flow) rất lớn khi xe khác vượt qua. | Ảnh fisheye 2D đồng bộ thời gian phần cứng (hardware time-sync với camera trước/sau) và ma trận ngoại thông số gắn tại gương chiếu hậu trái. | Review đa góc nhìn (Multi-view inspection): Mở đồng thời khung hình cùng timestamp của camera trước và camera trái để đối chiếu hình học. |
+| **right** | Người đi bộ hoặc xe đạp bước ra từ vỉa hè bị cây cối/xe đỗ che khuất; xe máy rẽ phải tạt đầu vào vùng điểm mù góc trước-phải. | Tình trạng che khuất động một phần (occlusion > 50%); vùng điểm mù góc rộng bên phụ khó phân định ranh giới giữa lề đường và lòng đường. | Ảnh fisheye 2D gốc kèm thông số cân chỉnh góc nghiêng gương phụ (Mirror Extrinsics) và vector chuyển động của luồng xe. | Quy trình rà soát 3 lớp (Annotator -> QA Senior -> Safety Lead) với tiêu chí khắt khe bắt buộc cho cờ `occluded` và `truncated`. |
 
-- Khi nào cần refresh gold set (đổi camera, calibration hoặc rule): TODO
-- Một ca seam/cross-camera cần policy và evidence trước khi ghép hai box: TODO
-- Vì sao peer agreement hoặc quality report trên ảnh một camera chưa chứng minh gold set đúng cho cả bốn camera: TODO
+---
+
+## Các nguyên tắc bổ trợ
+
+- **Khi nào cần refresh gold set (đổi camera, calibration hoặc rule):**
+  1. *Thay đổi phần cứng:* Thay thế cụm cảm biến camera, đổi loại ống kính (thay đổi trường nhìn FOV hoặc tiêu cự thấu kính).
+  2. *Cập nhật hiệu chuẩn (Recalibration):* Khi xe thử nghiệm bảo dưỡng, căn chỉnh lại góc đặt camera hoặc ma trận nội/ngoại thông số bị trôi lệch sau thời gian dài vận hành.
+  3. *Cập nhật bộ quy chuẩn (Guideline Update):* Khi quy chuẩn gán nhãn thay đổi phiên bản (như mở rộng thêm class mới, thay đổi ngưỡng chiều cao pixel H=40, hoặc điều chỉnh quy ước vẽ Rider/Bike).
+  4. *Mở rộng miền dữ liệu:* Khi triển khai xe sang thị trường mới có thời tiết tuyết rơi, mưa bão ngập lụt hoặc văn hóa giao thông đặc thù.
+- **Một ca seam/cross-camera cần policy và evidence trước khi ghép hai box:**
+  - *Policy:* Trong không gian 2D của từng camera độc lập, giữ nguyên 2 bounding box riêng biệt và chỉ đánh dấu trường liên kết `cross_camera_ref`, tuyệt đối không vẽ một box 2D giả tưởng kéo dài qua hai ảnh. Ở tầng tổng hợp 3D/BEV (Bird’s-Eye View), chỉ thực hiện hợp nhất thực thể (entity fusion) khi có quy chuẩn dung sai khoảng cách không gian (spatial tolerance) được phê duyệt.
+  - *Evidence:* Cần 3 bằng chứng bắt buộc trước khi ghép: (1) Tín hiệu đồng bộ thời gian cấp phần cứng với độ trễ dưới 5ms; (2) Ma trận ngoại thông số (Extrinsics) của 2 camera đã được cân chỉnh chuẩn xác qua cùng một hệ tọa độ xe ego; (3) Đối sánh đặc trưng thị giác (feature matching/re-ID) khẳng định hai box cùng thuộc về một thực thể vật lý duy nhất.
+- **Vì sao peer agreement hoặc quality report trên ảnh một camera chưa chứng minh gold set đúng cho cả bốn camera:**
+  - Độ đồng thuận giữa người gán nhãn (peer agreement) trên ảnh 1 camera đơn lẻ chỉ phản ánh tính nhất quán chủ quan trong không gian 2D của một góc nhìn cụ thể. Bốn camera SVM quanh xe có độ cao lắp đặt, góc nghiêng thấu kính, đặc tính chiếu sáng và trường quan sát hoàn toàn khác nhau. Độ chính xác cao trên camera trước không đảm bảo rằng hệ tọa độ ngoại thông số của 4 camera khớp nối mượt mà trên mặt phẳng chiếu BEV, không chứng minh được tính đồng bộ thời gian giữa các luồng ảnh, và không thể phát hiện lỗi gãy hình học tại các đường nối mí (seam zones).

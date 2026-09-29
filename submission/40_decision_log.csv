@@ -1,1 +1,5 @@
 id,date,question,decision,rationale,status
+D01,2026-09-29,Xử lý ThreeWheeler chạm biên phải ở frame 086220 (L1),Nới rộng box tới x=1080 và kích hoạt cờ truncated=true,Theo R02 box phải bám sát toàn bộ phần nhìn thấy và R05 bắt buộc bật truncated khi chạm biên ảnh,reworked
+D02,2026-09-29,Xử lý Truck bị che khuất ở frame 102750 (L3),Thu hẹp bounding box chỉ bao quanh thân xe nhìn thấy loại bỏ cột cản phía trước,Theo R02 chỉ vẽ phần nhìn thấy thực tế và R05 phân biệt rõ ràng thuộc tính occluded không vẽ trùm vật cản,reworked
+D03,2026-09-29,Xử lý xe ba bánh bị gán nhầm thành Truck ở frame 086220 (L2),Chuyển đổi nhãn từ Truck sang ThreeWheeler,Theo quy tắc phân loại R04 xe ba bánh chở hàng hoặc người đều phải gán là ThreeWheeler không gọi là Truck,reworked
+D04,2026-09-29,Xử lý box phát hiện giả của Model đè lên thân xe ego ở frame 060000 (M1),Escalate lên AI Team bổ sung bộ lọc mặt nạ không gian ego_body trong pipeline suy luận,Theo R07 thân xe ego thuộc vùng cấm gán nhãn ignore_region việc mô hình phát hiện box tại đây gây rủi ro an toàn ADAS nghiêm trọng,escalated

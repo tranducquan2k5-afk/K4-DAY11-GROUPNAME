@@ -1,9 +1,9 @@
 camera_id,slice_type,frames,risk,rationale
-front,normal,,TODO,TODO
-front,hard,,TODO,TODO
-rear,normal,,TODO,TODO
-rear,hard,,TODO,TODO
-left,normal,,TODO,TODO
-left,hard,,TODO,TODO
-right,normal,,TODO,TODO
-right,hard,,TODO,TODO
+front,normal,30,Bỏ sót vật thể nhỏ ở cự ly xa gần tâm ảnh trên trục chuyển động chính,Giám sát luồng va chạm trực diện ở dải tốc độ ổn định trong điều kiện chiếu sáng chuẩn
+front,hard,35,"Méo quang học fisheye vùng rìa, ngược sáng chói lóa, xe máy cắt ngang đầu xe đột ngột","Khu vực có rủi ro an toàn cao nhất trong vận hành ADAS, cần tập trung kiểm định ca khó"
+rear,normal,20,Nhầm lẫn bóng râm mặt đường hoặc vạch sơn với chướng ngại vật thấp,Phục vụ chức năng hỗ trợ lùi xe tự động ở tốc độ thấp trong bãi đỗ xe
+rear,hard,25,"Đèn pha xe sau chiếu lóa ban đêm, trẻ em hoặc người đi bộ bước vào điểm mù cản sau",Kiểm soát điểm mù góc thấp phía sau đuôi xe khi lùi hoặc quay đầu trong không gian hẹp
+left,normal,20,Bỏ sót phương tiện vượt bên hông do độ biến dạng quang học ngoại vi,Giám sát duy trì làn đường và hỗ trợ cảnh báo điểm mù bên tài (Blind Spot Detection)
+left,hard,25,"Vật thể nằm ngay đường nối mí (seam) với camera trước/sau, xe máy luồn lách sát thân xe","Vùng giao thoa giữa các camera có độ méo phi tuyến lớn nhất, dễ gãy bounding box"
+right,normal,20,Ước lượng sai khoảng cách tới mép lề đường hoặc xe đỗ song song,"Hỗ trợ quan sát bên phụ khi cập lề, đỗ xe song song hoặc chuyển làn thông thường"
+right,hard,25,"Người đi bộ hoặc xe hai bánh bất ngờ xuất hiện từ vỉa hè che khuất, vùng seam góc trước-phải","Điểm mù bên phụ nguy hiểm nhất trong môi trường đô thị hỗn hợp, cần phân bổ mẫu dày"

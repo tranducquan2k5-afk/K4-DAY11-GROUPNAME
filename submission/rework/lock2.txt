@@ -1,0 +1,9 @@
+round: rework
+slice: B2-mid
+sha256: 7980db0480b501846a12de1faae07c567685dc3cec467909ffe3008b6d5aa651
+code: 7980-DB04
+locked_at: 2026-09-29T15:48:17+07:00
+shapes: box=23, polygon=6
+prefill_kept: 2
+prefill_edited: 3
+new: 18
